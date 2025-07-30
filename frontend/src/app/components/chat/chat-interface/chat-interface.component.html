@@ -1,0 +1,67 @@
+<div class="chat-container">
+  <div class="chat-header">
+    <h2>Gemini AI Chat</h2>
+    <button mat-icon-button (click)="logout()" matTooltip="Logout">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
+
+  <div class="chat-messages" #messageContainer>
+    <div *ngFor="let message of messages" class="message-container">
+      <!-- User Message -->
+      <div class="user-message">
+        <div class="message-bubble user-bubble">
+          <p>{{ message.message }}</p>
+          <small class="timestamp">{{
+            message.timestamp | date : "short"
+          }}</small>
+        </div>
+      </div>
+
+      <!-- AI Response -->
+      <div class="ai-message">
+        <div class="message-bubble ai-bubble">
+          <p>{{ message.response }}</p>
+          <small class="timestamp">{{
+            message.timestamp | date : "short"
+          }}</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading indicator -->
+    <div *ngIf="isLoading" class="loading-message">
+      <span>Gemini AI is thinking...</span>
+    </div>
+  </div>
+
+  <div class="chat-input">
+    <form
+      [formGroup]="messageForm"
+      (ngSubmit)="sendMessage()"
+      class="input-form"
+    >
+      <mat-form-field appearance="outline" class="message-input">
+        <mat-label>Type your message...</mat-label>
+        <textarea
+          matInput
+          formControlName="message"
+          placeholder="Ask Gemini AI anything..."
+          rows="2"
+          (keydown.enter)="onEnterPress($event)"
+        >
+        </textarea>
+      </mat-form-field>
+
+      <button
+        mat-fab
+        color="primary"
+        type="submit"
+        [disabled]="messageForm.invalid || isLoading"
+        class="send-button"
+      >
+        <mat-icon>send</mat-icon>
+      </button>
+    </form>
+  </div>
+</div>
