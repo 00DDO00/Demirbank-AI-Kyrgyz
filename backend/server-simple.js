@@ -4,6 +4,7 @@ const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const geminiService = require("./src/services/geminiService");
+const knowledgebaseService = require("./src/services/knowledgebaseService");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -97,6 +98,22 @@ const authenticateToken = (req, res, next) => {
 app.get("/health", (req, res) => {
   console.log(`🏥 [HEALTH] Health check requested`);
   res.json({ status: "OK", message: "Gemini Chatbot API is running" });
+});
+
+// Knowledge base test endpoint
+app.get("/api/knowledgebase/test", (req, res) => {
+  console.log(`📚 [KNOWLEDGEBASE] Test endpoint requested`);
+  try {
+    const overview = knowledgebaseService.getServiceOverview();
+    res.json({
+      status: "OK",
+      message: "Knowledge base is loaded",
+      overview: overview.substring(0, 200) + "...",
+    });
+  } catch (error) {
+    console.error(`❌ [KNOWLEDGEBASE] Test error:`, error);
+    res.status(500).json({ error: "Knowledge base test failed" });
+  }
 });
 
 // Root endpoint for debugging
@@ -386,6 +403,8 @@ app.listen(PORT, () => {
   console.log(`   POST /api/auth/login - Login user`);
   console.log(`   POST /api/chat/sendMessage - Send message to Gemini AI`);
   console.log(`   GET  /api/chat/history - Get chat history`);
+  console.log(`📖 Knowledge Base: Dux8 Consulting knowledge base integrated`);
+  console.log(`🤖 AI Assistant: Enhanced with Dux8 Consulting expertise`);
   console.log("🚀".repeat(20));
   console.log(`🔍 Debug mode: ON - All requests will be logged`);
   console.log("─".repeat(80));

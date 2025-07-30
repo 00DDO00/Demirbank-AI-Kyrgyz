@@ -1,4 +1,5 @@
 const axios = require("axios");
+const knowledgebaseService = require("./knowledgebaseService");
 
 class GeminiService {
   constructor() {
@@ -32,21 +33,71 @@ class GeminiService {
       console.log(`🤖 [GEMINI] API URL: ${this.apiUrl}`);
       console.log(`🤖 [GEMINI] API Key: ${this.apiKey.substring(0, 10)}...`);
 
+      // Get relevant knowledge base context
+      const knowledgeContext = knowledgebaseService.getRelevantContext(message);
+      console.log(
+        `📚 [KNOWLEDGEBASE] Context found: ${knowledgeContext ? "Yes" : "No"}`
+      );
+
+      // Create enhanced prompt with conversational instructions
+      let enhancedPrompt = message;
+
+      if (knowledgeContext) {
+        enhancedPrompt = `You are an AI assistant for Dux8 Consulting, an AI consulting firm. 
+
+IMPORTANT: Be conversational, friendly, and concise. Don't dump large paragraphs of text. Instead:
+- Give brief, helpful answers
+- Ask follow-up questions when appropriate
+- Be engaging and human-like
+- Use the knowledge base as reference, but don't copy it verbatim
+- Keep responses under 3-4 sentences unless the user asks for more detail
+- If the user asks for specific information, provide detailed responses from the knowledge base
+
+Knowledge base reference:
+${knowledgeContext}
+
+User Question: ${message}
+
+Please provide a conversational, concise response based on the Dux8 Consulting knowledge base.`;
+      } else {
+        // If no specific context found, provide general Dux8 overview
+        const overview = knowledgebaseService.getServiceOverview();
+        enhancedPrompt = `You are an AI assistant for Dux8 Consulting. 
+
+IMPORTANT: Be conversational, friendly, and concise. Don't dump large paragraphs of text. Instead:
+- Give brief, helpful answers
+- Ask follow-up questions when appropriate
+- Be engaging and human-like
+- Use the knowledge base as reference, but don't copy it verbatim
+- Keep responses under 3-4 sentences unless the user asks for more detail
+
+${overview}
+
+User Question: ${message}
+
+Please provide a conversational, concise response. If the user is asking about Dux8 Consulting services or information, use the provided overview. For general questions, provide helpful assistance.`;
+      }
+
       const requestBody = {
         contents: [
           {
             parts: [
               {
-                text: message,
+                text: enhancedPrompt,
               },
             ],
           },
         ],
+        generationConfig: {
+          maxOutputTokens: 2048,
+          temperature: 0.7,
+          topP: 0.8,
+          topK: 40,
+        },
       };
 
       console.log(
-        `🤖 [GEMINI] Request body:`,
-        JSON.stringify(requestBody, null, 2)
+        `🤖 [GEMINI] Request body length: ${enhancedPrompt.length} characters`
       );
 
       const response = await axios.post(
@@ -56,6 +107,7 @@ class GeminiService {
           headers: {
             "Content-Type": "application/json",
           },
+          timeout: 30000, // 30 second timeout for larger context
         }
       );
 
@@ -89,7 +141,6 @@ class GeminiService {
         error.response?.data || "No response data"
       );
       console.error(`🤖 [GEMINI] Status code:`, error.response?.status);
-
       // Return a fallback response if API fails
       return "I'm sorry, I'm having trouble connecting right now. Please try again later.";
     }

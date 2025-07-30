@@ -1,9 +1,11 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { User } = require("../models");
+const { User, sequelize } = require("../models");
 
 class AuthController {
   async register(req, res) {
+    const transaction = await sequelize.transaction();
+
     try {
       const { username, email, password } = req.body;
 
@@ -12,9 +14,11 @@ class AuthController {
         where: {
           [require("sequelize").Op.or]: [{ username }, { email }],
         },
+        transaction,
       });
 
       if (existingUser) {
+        await transaction.rollback();
         return res
           .status(400)
           .json({ error: "Username or email already exists" });
@@ -24,12 +28,15 @@ class AuthController {
       const hashedPassword = await bcrypt.hash(password, 10);
 
       // Create user
-      const user = await User.create({
-        username,
-        email,
-        password: hashedPassword,
-        role: "User",
-      });
+      const user = await User.create(
+        {
+          username,
+          email,
+          password: hashedPassword,
+          role: "User",
+        },
+        { transaction }
+      );
 
       // Generate JWT token
       const token = jwt.sign(
@@ -37,6 +44,9 @@ class AuthController {
         process.env.JWT_SECRET || "your_jwt_secret_key_here",
         { expiresIn: process.env.JWT_EXPIRES_IN || "24h" }
       );
+
+      // Commit the transaction
+      await transaction.commit();
 
       res.status(201).json({
         message: "User registered successfully",
@@ -49,6 +59,8 @@ class AuthController {
         },
       });
     } catch (error) {
+      // Rollback transaction on error
+      await transaction.rollback();
       console.error("Register error:", error);
       res.status(500).json({ error: "Internal server error" });
     }
