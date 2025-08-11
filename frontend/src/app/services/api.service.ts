@@ -11,7 +11,11 @@ export class ApiService {
   constructor(private http: HttpClient) {}
 
   private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
+    // Check if localStorage is available (browser environment)
+    const token =
+      typeof window !== 'undefined' && window.localStorage
+        ? localStorage.getItem('token')
+        : null;
     return new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: token ? `Bearer ${token}` : '',
