@@ -404,7 +404,7 @@ app.listen(PORT, () => {
   console.log(`   POST /api/chat/sendMessage - Send message to Gemini AI`);
   console.log(`   GET  /api/chat/history - Get chat history`);
   console.log(`📖 Knowledge Base: Demirbank knowledge base integrated`);
-  console.log(`🤖 AI Assistant: Enhanced with Demirbank Consulting expertise`);
+  console.log(`🤖 AI Assistant: Enhanced with Demirbank expertise`);
   console.log("🚀".repeat(20));
   console.log(`🔍 Debug mode: ON - All requests will be logged`);
   console.log("─".repeat(80));

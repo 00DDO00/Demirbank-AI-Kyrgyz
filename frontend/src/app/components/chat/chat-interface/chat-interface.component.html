@@ -1,6 +1,12 @@
 <div class="chat-container">
   <div class="chat-header">
-    <h2>Alicia</h2>
+    <div class="header-content">
+      <h2>Alicia</h2>
+      <div class="language-support">
+        <mat-icon class="language-icon">language</mat-icon>
+        <span class="language-text">Multi-language Support</span>
+      </div>
+    </div>
     <button mat-icon-button (click)="logout()" matTooltip="Logout">
       <mat-icon>logout</mat-icon>
     </button>
@@ -42,11 +48,11 @@
       class="input-form"
     >
       <mat-form-field appearance="outline" class="message-input">
-        <mat-label>Type your message...</mat-label>
+        <mat-label>Type your message in any language...</mat-label>
         <textarea
           matInput
           formControlName="message"
-          placeholder="Ask Gemini AI anything..."
+          placeholder="Ask me anything in any language - English, Spanish, French, Arabic, Chinese, Japanese, Korean, Hindi, etc..."
           rows="2"
           (keydown.enter)="onEnterPress($event)"
         >

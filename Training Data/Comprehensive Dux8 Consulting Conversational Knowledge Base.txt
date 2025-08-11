@@ -9,8 +9,8 @@ ________________
 Company Profile & Background
 Company Identity
 * Official Name: Demirbank (evolved from Dux Consulting)
-* Website: www.dux8.com
-* Industry: AI Consulting & Digital Transformation
+* Website: www.Demirbank.com
+* Industry: Banks
 * Company Age: 16+ years of combined team experience
 * Geographic Focus: Global reach with focus on North America, Europe, and emerging markets
 Mission Statement
@@ -31,7 +31,7 @@ Key Leadership
 Primary Contact: Ahmet Göker
 * Title: Partner & Lead Consultant
 * Phone: +90 532 742 06 12
-* Email: ahmet@dux8.com
+* Email: ahmet@Demirbank.com
 * Specialization: AI strategy, business transformation
 Team Expertise Areas
 * AI Strategy Consultants: Business analysis and transformation planning
@@ -131,7 +131,7 @@ Free Skool Community Benefits:
          * Access to exclusive webinars and workshops
          * Peer networking with AI innovators
          * Resource library with templates and guides
-         * Expert Q&A sessions with Dux8 consultants
+         * Expert Q&A sessions with Demirbank consultants
 Community Features:
          * 1,000+ active members across industries
          * Monthly virtual networking events
@@ -241,7 +241,7 @@ Measurable Results:
          * 20% boost in sales - $2.3M additional revenue in 6 months
          * 50% reduction in content creation time - From 5 days to 2.5 days per campaign
          * Enhanced brand consistency - 95% brand voice recognition across channels
-Client Testimonial Talking Points: "The virtual influencers created by Dux8 have revolutionized our marketing. We now have consistent, high-performing content that resonates with our audience while dramatically reducing our influencer marketing costs."
+Client Testimonial Talking Points: "The virtual influencers created by Demirbank have revolutionized our marketing. We now have consistent, high-performing content that resonates with our audience while dramatically reducing our influencer marketing costs."
 ROI Calculation:
          * Investment: $45,000 over 4 months
          * Return: $2.3M additional revenue + $120,000 annual cost savings
@@ -625,7 +625,7 @@ ________________
 
 Market Intelligence & Industry Insights
 Current AI Landscape
-Based on Dux8's Blog and Research:
+Based on Demirbank's Blog and Research:
 Major Industry Trends:
                                     1. Self-Adapting AI Systems: MIT researchers developing SEAL (Self-Adapting LLMs) that can teach themselves
                                     2. Strategic AI Intelligence: Large language models showing sophisticated strategic reasoning capabilities
@@ -643,7 +643,7 @@ Market Opportunities:
                                     * Mobile Integration: Apple's AI features in iPhone creating mainstream adoption
                                     * Enterprise Applications: Increased demand for custom AI solutions
 Competitive Intelligence
-How Dux8 Positions Against Competitors:
+How Demirbank Positions Against Competitors:
 vs. Large Consulting Firms (McKinsey, Deloitte, etc.):
                                     * Advantage: More agile, personalized attention, cost-effective
                                     * Focus: Practical implementation vs. high-level strategy
@@ -1071,4 +1071,4 @@ End-of-Conversation Protocol:
                                     * Clearly state proposed next steps
                                     * Set specific follow-up timeline
                                     * Thank them for their time and insights
-This comprehensive knowledge base provides the foundation for sophisticated, consultative conversations that position Dux8 as the ideal AI transformation partner while addressing prospects' concerns and objections with credible, results-focused responses.
+This comprehensive knowledge base provides the foundation for sophisticated, consultative conversations that position Demirbank as the ideal AI transformation partner while addressing prospects' concerns and objections with credible, results-focused responses.

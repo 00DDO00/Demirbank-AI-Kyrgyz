@@ -23,11 +23,19 @@ class GeminiService {
         `📚 [KNOWLEDGEBASE] Context found: ${knowledgeContext ? "Yes" : "No"}`
       );
 
-      // Create enhanced prompt with conversational instructions
+      // Detect language and create enhanced prompt with multi-language support
       let enhancedPrompt = message;
 
       if (knowledgeContext) {
-        enhancedPrompt = `You are an AI assistant for Dux8 Consulting, an AI consulting firm. 
+        enhancedPrompt = `You are an AI assistant for Demirbank, a bank.
+MULTI-LANGUAGE SUPPORT: 
+- Detect the language of the user's message automatically
+- Always respond in the SAME language as the user's input
+- If the user writes in Spanish, respond in Spanish
+- If the user writes in French, respond in French
+- If the user writes in Arabic, respond in Arabic
+- Support ALL languages including Asian languages (Chinese, Japanese, Korean, Hindi, etc.)
+- Maintain the same tone and formality level as the user's message
 
 IMPORTANT: Be conversational, friendly, and concise. Don't dump large paragraphs of text. Instead:
 - Give brief, helpful answers
@@ -45,11 +53,20 @@ ${knowledgeContext}
 
 User Question: ${message}
 
-Please provide a conversational, concise response based on the Dux8 Consulting knowledge base.`;
+Please provide a conversational, concise response in the SAME LANGUAGE as the user's message, based on the Demirbank knowledge base.`;
       } else {
-        // If no specific context found, provide general Dux8 overview
+        // If no specific context found, provide general Demirbank overview
         const overview = knowledgebaseService.getServiceOverview();
-        enhancedPrompt = `You are an AI assistant for Dux8 Consulting. 
+        enhancedPrompt = `You are an AI assistant for Demirbank. 
+
+MULTI-LANGUAGE SUPPORT: 
+- Detect the language of the user's message automatically
+- Always respond in the SAME language as the user's input
+- If the user writes in Spanish, respond in Spanish
+- If the user writes in French, respond in French
+- If the user writes in Arabic, respond in Arabic
+- Support ALL languages including Asian languages (Chinese, Japanese, Korean, Hindi, etc.)
+- Maintain the same tone and formality level as the user's message
 
 IMPORTANT: Be conversational, friendly, and concise. Don't dump large paragraphs of text. Instead:
 - Give brief, helpful answers
@@ -62,7 +79,7 @@ ${overview}
 
 User Question: ${message}
 
-Please provide a conversational, concise response. If the user is asking about Dux8 Consulting services or information, use the provided overview. For general questions, provide helpful assistance.`;
+Please provide a conversational, concise response in the SAME LANGUAGE as the user's message. If the user is asking about Demirbank services or information, use the provided overview. For general questions, provide helpful assistance.`;
       }
 
       const requestBody = {
