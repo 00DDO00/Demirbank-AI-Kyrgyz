@@ -4,18 +4,24 @@ const path = require("path");
 class KnowledgebaseService {
   constructor() {
     this.knowledgeBase = null;
+    this.knowledgeBaseName = null;
     this.loadKnowledgeBase();
   }
 
   loadKnowledgeBase() {
     try {
+      // Use environment variable or default to Dux8
+      const kbFile =
+        process.env.KNOWLEDGEBASE_FILE ||
+        "Comprehensive DemirBank Kyrgyzstan Conversational Knowledge Base_V2.txt";
       const knowledgeBasePath = path.join(
         __dirname,
-        "../../../Comprehensive Dux8 Consulting Conversational Knowledge Base.txt"
+        `../../../Training Data/${kbFile}`
       );
       this.knowledgeBase = fs.readFileSync(knowledgeBasePath, "utf8");
+      this.knowledgeBaseName = kbFile.replace(/\.txt$/, "");
       console.log(
-        "📚 [KNOWLEDGEBASE] Comprehensive conversational knowledge base loaded successfully"
+        `📚 [KNOWLEDGEBASE] Loaded knowledge base: ${this.knowledgeBaseName}`
       );
     } catch (error) {
       console.error(
@@ -23,6 +29,7 @@ class KnowledgebaseService {
         error.message
       );
       this.knowledgeBase = "";
+      this.knowledgeBaseName = null;
     }
   }
 
@@ -38,17 +45,14 @@ class KnowledgebaseService {
     // Search through different sections
     for (const section of sections) {
       const sectionLower = section.toLowerCase();
-
       // Check if the section contains relevant keywords
       const keywords = queryLower.split(" ");
       let relevanceScore = 0;
-
       for (const keyword of keywords) {
         if (keyword.length > 2 && sectionLower.includes(keyword)) {
           relevanceScore += 1;
         }
       }
-
       // If section is relevant, add it to results
       if (relevanceScore > 0) {
         relevantSections.push({
@@ -60,41 +64,34 @@ class KnowledgebaseService {
 
     // Sort by relevance score and return top results
     relevantSections.sort((a, b) => b.score - a.score);
-
     if (relevantSections.length === 0) {
       return null;
     }
-
     // Return multiple relevant sections for comprehensive context
     // But limit to top 3 most relevant sections to avoid overwhelming
     const topResults = relevantSections.slice(0, 3);
     const combinedContent = topResults
       .map((result) => result.content)
       .join("\n\n");
-
     // If the combined content is too large, truncate it
     const maxSectionLength = 15000; // Limit each section to 15K characters
     if (combinedContent.length > maxSectionLength) {
       return combinedContent.substring(0, maxSectionLength) + "...";
     }
-
     return combinedContent;
   }
 
   getRelevantContext(userMessage) {
     const relevantInfo = this.searchKnowledgeBase(userMessage);
-
     if (relevantInfo) {
-      // Significantly increased limit to accommodate the entire knowledge base
-      const maxLength = 50000; // Increased from 800 to 50,000 characters
+      // Increased limit to accommodate the entire knowledge base
+      const maxLength = 90000;
       const truncatedInfo =
         relevantInfo.length > maxLength
           ? relevantInfo.substring(0, maxLength) + "..."
           : relevantInfo;
-
-      return `Based on the comprehensive Dux8 Consulting knowledge base, here is relevant information:\n\n${truncatedInfo}\n\nPlease use this information to provide accurate, conversational, and helpful responses about Dux8 Consulting services, case studies, and capabilities.`;
+      return `Based on the comprehensive ${this.knowledgeBaseName} knowledge base, here is relevant information:\n\n${truncatedInfo}\n\nPlease use this information to provide accurate, conversational, and helpful responses about this domain. Assume that you are a banking assistant called Alicia tasked with providing the user with the information they desire and answering their questions. Keep your responses conscise and refrain from spouting out too much information at once. Treat this as a conversation, not a knowledge terminal. Only use the ${this.knowledgeBaseName} knowledge base. Ignore any information about Dux8, DHB bank or other companies. Always deafult to using the ${this.knowledgeBaseName} knowledge base, never mention dux8. Never ask questions back to back, always try to point the user to their desired goal that they tell you. If at any point you refer a user to the website, also refer them to the app and add the links. App Store link: 'https://apps.apple.com/kg/app/demirbank-bank-for-your-life/id884950934', Google Play link: 'https://play.google.com/store/apps/details?id=kg.demirbank.mobileib.v3&hl=ru&pli=1'. ONLY REFER USER TO THE LINKS ONCE EVERY 10 MESSAGES.”`;
     }
-
     return null;
   }
 
@@ -103,28 +100,7 @@ class KnowledgebaseService {
   }
 
   getServiceOverview() {
-    const overview = `
-Dux8 Consulting (formerly Dux Consulting) is an AI consulting firm specializing in business transformation with 16+ years of combined experience.
-
-Core Services:
-1. AI Compatibility Audit - Comprehensive evaluation of organization's AI readiness
-2. AI Training & Education - Custom programs for executives, managers, and employees
-3. End-to-End AI Implementation - Complete transformation services
-4. AI Community & Learning - Free Skool community for continuous learning
-
-Key Differentiators:
-- Proven track record with 30-50% efficiency improvements
-- End-to-end service model (strategy through implementation)
-- Industry-agnostic expertise with sector specialization
-- Custom solution development vs. off-the-shelf tools
-- Transparent pricing with ROI guarantees
-
-Industries Served: E-commerce, Manufacturing, Finance, Healthcare, Technology, Defense
-
-Contact: Ahmet Göker (Partner) - ahmet@dux8.com, +90 532 742 06 12
-Website: www.dux8.com
-    `;
-    return overview.trim();
+    return `Active Knowledge Base: ${this.knowledgeBaseName || "None"}`;
   }
 }
 

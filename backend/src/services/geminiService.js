@@ -3,7 +3,7 @@ const knowledgebaseService = require("./knowledgebaseService");
 
 class GeminiService {
   constructor() {
-    this.apiKey = "AIzaSyCSyjC8bH3RNmLYx6kq6osmCiUHWsv5Wo0";
+    this.apiKey = "AIzaSyC89Gt_mp6b5uJGSlStKsQNcsphLOV3UD0";
     // Updated to use gemini-1.5-pro which should be more stable
     this.apiUrl =
       "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent";
@@ -12,22 +12,6 @@ class GeminiService {
   }
 
   async generateResponse(message) {
-    // Mock response for testing without billing
-    if (this.useMockResponse) {
-      console.log(`🤖 [GEMINI] Using mock response for: "${message}"`);
-      const mockResponses = [
-        "Hello! I'm a mock Gemini AI response. This is working perfectly! 🎉",
-        "Great question! Here's a helpful response from the mock AI.",
-        "I understand your message. This is a test response while billing is being set up.",
-        "Thanks for chatting! This is a temporary response until the real Gemini API is connected.",
-        "Interesting! Let me provide a thoughtful response to your message.",
-      ];
-      const randomResponse =
-        mockResponses[Math.floor(Math.random() * mockResponses.length)];
-      console.log(`🤖 [GEMINI] Mock response: ${randomResponse}`);
-      return randomResponse;
-    }
-
     try {
       console.log(`🤖 [GEMINI] Calling API with message: "${message}"`);
       console.log(`🤖 [GEMINI] API URL: ${this.apiUrl}`);
@@ -51,7 +35,10 @@ IMPORTANT: Be conversational, friendly, and concise. Don't dump large paragraphs
 - Be engaging and human-like
 - Use the knowledge base as reference, but don't copy it verbatim
 - Keep responses under 3-4 sentences unless the user asks for more detail
-- If the user asks for specific information, provide detailed responses from the knowledge base
+- If the user asks for specific information, provide detailed responses from the knowledge base.
+- Make sure to remember each and every message and don't repeat questions with different wording.
+- Try to match keywords from a message to the previous message text to compare with and continue the conversation better.
+- Never start the conversation with 'hi there' or anything similar after the first response.
 
 Knowledge base reference:
 ${knowledgeContext}
