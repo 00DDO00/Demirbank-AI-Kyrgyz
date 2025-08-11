@@ -18,12 +18,12 @@
 
 ## System Overview
 
-The Gemini Chatbot is a full-stack web application that provides an AI-powered conversational interface with Dux8 Consulting expertise. The system integrates Google's Gemini AI with a comprehensive knowledge base and includes user authentication, chat history persistence, and a modern Angular frontend.
+The Gemini Chatbot is a full-stack web application that provides an AI-powered conversational interface with Demirbank expertise. The system integrates Google's Gemini AI with a comprehensive knowledge base and includes user authentication, chat history persistence, and a modern Angular frontend.
 
 ### Key Features
 
 - 🤖 **AI-Powered Conversations**: Integration with Google Gemini AI
-- 📚 **Knowledge Base**: Comprehensive Dux8 Consulting expertise
+- 📚 **Knowledge Base**: Comprehensive Demirbank expertise
 - 🔐 **User Authentication**: JWT-based authentication system
 - 💾 **Chat History**: Persistent storage of user conversations
 - 🎨 **Modern UI**: Angular-based responsive frontend
@@ -163,7 +163,7 @@ Authorization: Bearer <jwt_token>
   "data": {
     "id": 1,
     "message": "User message",
-    "response": "AI response with Dux8 Consulting expertise",
+    "response": "AI response with Demirbank expertise",
     "timestamp": "2024-01-01T12:00:00.000Z"
   }
 }
@@ -377,7 +377,7 @@ CREATE TABLE "ChatHistories" (
 ### Knowledge Base Service
 
 - **File**: `backend/src/services/knowledgebaseService.js`
-- **Content**: Comprehensive Dux8 Consulting information
+- **Content**: Comprehensive Demirbank information
 - **Size**: ~79KB of structured data
 - **Context Limit**: 50,000 characters
 - **Search Algorithm**: Semantic relevance matching

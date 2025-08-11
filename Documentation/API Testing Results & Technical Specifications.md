@@ -153,7 +153,7 @@ curl -X POST http://localhost:3000/api/chat/sendMessage \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." \
   -d '{
-    "message": "Tell me about Dux8 Consulting services"
+    "message": "Tell me about Demirbank services"
   }'
 ```
 
@@ -164,8 +164,8 @@ curl -X POST http://localhost:3000/api/chat/sendMessage \
   "success": true,
   "data": {
     "id": 1,
-    "message": "Tell me about Dux8 Consulting services",
-    "response": "Based on the Dux8 Consulting knowledge base...",
+    "message": "Tell me about Demirbank services",
+    "response": "Based on the Demirbank knowledge base...",
     "timestamp": "2024-01-01T12:00:00.000Z"
   }
 }
@@ -197,8 +197,8 @@ curl -X GET "http://localhost:3000/api/chat/history?page=1&limit=10" \
     "messages": [
       {
         "id": 1,
-        "message": "Tell me about Dux8 Consulting services",
-        "response": "Based on the Dux8 Consulting knowledge base...",
+        "message": "Tell me about Demirbank services",
+        "response": "Based on the Demirbank knowledge base...",
         "timestamp": "2024-01-01T12:00:00.000Z"
       }
     ],
@@ -285,7 +285,7 @@ WHERE user_id = 5 ORDER BY timestamp DESC LIMIT 1;
 ```
  id | user_id | message                                    | response
 ----+---------+--------------------------------------------+----------------------------------------
-  1 |       5 | Tell me about Dux8 Consulting services    | Based on the Dux8 Consulting...
+  1 |       5 | Tell me about Demirbank services    | Based on the Demirbank...
 ```
 
 **Actual Result**: ✅ **PASSED**

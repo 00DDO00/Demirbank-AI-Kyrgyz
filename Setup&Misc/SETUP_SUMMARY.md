@@ -131,7 +131,7 @@ ng serve
 
 - **Increased Context Limit**: From 800 to 50,000 characters
 - **Comprehensive Search**: Returns multiple relevant sections
-- **Full Knowledge Base**: Access to complete Dux8 Consulting information
+- **Full Knowledge Base**: Access to complete Demirbank information
 
 ### User Management
 

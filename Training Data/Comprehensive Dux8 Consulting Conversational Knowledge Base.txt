@@ -1,4 +1,4 @@
-﻿Comprehensive Dux8 Consulting Conversational Knowledge Base
+﻿Comprehensive Demirbank Conversational Knowledge Base
 Executive Summary for Chat Agents
 Company Mission: Transform businesses through AI consulting services, driving innovation, enhancing efficiency, and delivering tailored solutions for measurable business impact.
 Core Value Proposition: Executive-level AI consulting with 16+ years of combined experience, delivering 30-50% efficiency improvements and measurable ROI through custom AI solutions.
@@ -8,7 +8,7 @@ ________________
 
 Company Profile & Background
 Company Identity
-* Official Name: Dux8 Consulting (evolved from Dux Consulting)
+* Official Name: Demirbank (evolved from Dux Consulting)
 * Website: www.dux8.com
 * Industry: AI Consulting & Digital Transformation
 * Company Age: 16+ years of combined team experience
