@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ApiService {
-  private baseUrl = 'http://localhost:3000/api';
+  private baseUrl = 'https://gemini-chatbot-backend-1rvx.onrender.com/api';
 
   constructor(private http: HttpClient) {}
 
