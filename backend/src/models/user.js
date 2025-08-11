@@ -29,6 +29,18 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         defaultValue: "User",
       },
+      lastLoginAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      isActive: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+      },
+      sessionToken: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
     {
       sequelize,

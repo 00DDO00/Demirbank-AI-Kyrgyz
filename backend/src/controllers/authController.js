@@ -27,6 +27,13 @@ class AuthController {
       // Hash password
       const hashedPassword = await bcrypt.hash(password, 10);
 
+      // Generate session token
+      const sessionToken = jwt.sign(
+        { username, email },
+        process.env.JWT_SECRET || "your_jwt_secret_key_here",
+        { expiresIn: "24h" }
+      );
+
       // Create user
       const user = await User.create(
         {
@@ -34,6 +41,9 @@ class AuthController {
           email,
           password: hashedPassword,
           role: "User",
+          lastLoginAt: new Date(),
+          isActive: true,
+          sessionToken: sessionToken,
         },
         { transaction }
       );
@@ -85,6 +95,20 @@ class AuthController {
         return res.status(401).json({ error: "Invalid credentials" });
       }
 
+      // Generate new session token
+      const sessionToken = jwt.sign(
+        { username: user.username, email: user.email },
+        process.env.JWT_SECRET || "your_jwt_secret_key_here",
+        { expiresIn: "24h" }
+      );
+
+      // Update user session data
+      await user.update({
+        lastLoginAt: new Date(),
+        isActive: true,
+        sessionToken: sessionToken,
+      });
+
       // Generate JWT token
       const token = jwt.sign(
         { userId: user.id, username: user.username },
@@ -104,6 +128,56 @@ class AuthController {
       });
     } catch (error) {
       console.error("Login error:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
+
+  async logout(req, res) {
+    try {
+      const userId = req.user.id;
+
+      // Clear session data in database
+      await User.update(
+        {
+          sessionToken: null,
+          isActive: false,
+        },
+        {
+          where: { id: userId },
+        }
+      );
+
+      res.json({ message: "Logout successful" });
+    } catch (error) {
+      console.error("Logout error:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
+
+  async getCurrentUser(req, res) {
+    try {
+      const userId = req.user.id;
+
+      const user = await User.findByPk(userId, {
+        attributes: { exclude: ["password", "sessionToken"] },
+      });
+
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      res.json({
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+          lastLoginAt: user.lastLoginAt,
+          isActive: user.isActive,
+        },
+      });
+    } catch (error) {
+      console.error("Get current user error:", error);
       res.status(500).json({ error: "Internal server error" });
     }
   }

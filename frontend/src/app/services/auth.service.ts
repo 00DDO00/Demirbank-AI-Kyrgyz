@@ -1,8 +1,15 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ApiService } from './api.service';
-import { User } from '../models/user';
+
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  role: string;
+}
 
 export interface LoginRequest {
   username: string;
@@ -28,26 +35,22 @@ export class AuthService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(
-    private apiService: ApiService,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {
+  constructor(private apiService: ApiService) {
     this.loadUserFromStorage();
   }
 
   private loadUserFromStorage(): void {
-    if (!isPlatformBrowser(this.platformId)) {
-      return;
-    }
-
-    const token = localStorage.getItem('token');
-    const userStr = localStorage.getItem('user');
-    if (token && userStr) {
-      try {
-        const user = JSON.parse(userStr);
-        this.currentUserSubject.next(user);
-      } catch (error) {
-        this.logout();
+    // Check if we're in a browser environment
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const token = localStorage.getItem('token');
+      const userStr = localStorage.getItem('user');
+      if (token && userStr) {
+        try {
+          const user = JSON.parse(userStr);
+          this.currentUserSubject.next(user);
+        } catch (error) {
+          this.logout();
+        }
       }
     }
   }
@@ -61,7 +64,7 @@ export class AuthService {
   }
 
   logout(): void {
-    if (isPlatformBrowser(this.platformId)) {
+    if (typeof window !== 'undefined' && window.localStorage) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
     }
@@ -69,7 +72,7 @@ export class AuthService {
   }
 
   setAuthData(token: string, user: User): void {
-    if (isPlatformBrowser(this.platformId)) {
+    if (typeof window !== 'undefined' && window.localStorage) {
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
     }
@@ -77,10 +80,10 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    if (!isPlatformBrowser(this.platformId)) {
-      return false;
+    if (typeof window !== 'undefined' && window.localStorage) {
+      return !!localStorage.getItem('token');
     }
-    return !!localStorage.getItem('token');
+    return false;
   }
 
   getCurrentUser(): User | null {
