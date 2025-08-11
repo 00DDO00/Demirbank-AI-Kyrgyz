@@ -10,6 +10,8 @@
 
 ---
 
+//Fresh 2.1
+
 ## 1. Authentication API Tests
 
 ### 1.1 User Registration Test
