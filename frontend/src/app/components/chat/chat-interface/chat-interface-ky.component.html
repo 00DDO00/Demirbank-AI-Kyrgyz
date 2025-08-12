@@ -1,0 +1,56 @@
+<div class="chat-container">
+  <div class="chat-header">
+    <div class="header-content">
+      <h2>ИИ Жардамчы</h2>
+      <div class="language-support">
+        <mat-icon class="language-icon">language</mat-icon>
+        <span class="language-text">Көп тилдик колдоо</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat-messages" #chatMessages>
+    <div
+      *ngFor="let message of messages"
+      [ngClass]="{
+        message: true,
+        'user-message': message.isUser,
+        'bot-message': !message.isUser
+      }"
+    >
+      <div class="message-content">
+        <div class="message-text">{{ message.text }}</div>
+        <div class="message-time">
+          {{ message.timestamp | date : "HH:mm" }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat-input">
+    <mat-form-field appearance="outline" class="message-input">
+      <mat-label>Каалаган тилде билдирүүңүздү жазыңыз...</mat-label>
+      <textarea
+        matInput
+        [(ngModel)]="userMessage"
+        (keydown.enter)="onEnterPress($any($event))"
+        placeholder="Мага каалаган тилде каалаган нерсени сураңыз - Англис, Испан, Француз, Араб, Кытай, Жапон, Корея, Хинди, ж.б..."
+        rows="3"
+      ></textarea>
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="sendMessage()"
+        [disabled]="!userMessage.trim() || isLoading"
+        matTooltip="Жөнөтүү"
+      >
+        <mat-icon>send</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-indicator">
+    <mat-spinner diameter="20"></mat-spinner>
+    <span>Жооп жазылууда...</span>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>Вход</mat-card-title>
+      <mat-card-subtitle>Давайте пообщаемся!</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Имя пользователя</mat-label>
+          <input
+            matInput
+            formControlName="username"
+            placeholder="Введите имя пользователя"
+            required
+          />
+          <mat-error *ngIf="loginForm.get('username')?.hasError('required')">
+            Имя пользователя обязательно
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Пароль</mat-label>
+          <input
+            matInput
+            type="password"
+            formControlName="password"
+            placeholder="Введите пароль"
+            required
+          />
+          <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+            Пароль обязателен
+          </mat-error>
+        </mat-form-field>
+
+        <div class="error-message" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="full-width"
+          [disabled]="!loginForm.valid || isLoading"
+        >
+          <mat-spinner diameter="20" *ngIf="isLoading"></mat-spinner>
+          <span *ngIf="!isLoading">Выполняется вход...</span>
+        </button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <p class="register-link">
+        Нет аккаунта? <a routerLink="/register">Зарегистрируйтесь здесь</a>
+      </p>
+    </mat-card-actions>
+  </mat-card>
+</div>

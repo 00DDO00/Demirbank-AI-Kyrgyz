@@ -1,0 +1,60 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>Giriş</mat-card-title>
+      <mat-card-subtitle>Hadi sohbet edelim!</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Kullanıcı Adı</mat-label>
+          <input
+            matInput
+            formControlName="username"
+            placeholder="Kullanıcı adınızı girin"
+            required
+          />
+          <mat-error *ngIf="loginForm.get('username')?.hasError('required')">
+            Kullanıcı adı gerekli
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Şifre</mat-label>
+          <input
+            matInput
+            type="password"
+            formControlName="password"
+            placeholder="Şifrenizi girin"
+            required
+          />
+          <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+            Şifre gerekli
+          </mat-error>
+        </mat-form-field>
+
+        <div class="error-message" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="full-width"
+          [disabled]="!loginForm.valid || isLoading"
+        >
+          <mat-spinner diameter="20" *ngIf="isLoading"></mat-spinner>
+          <span *ngIf="!isLoading">Giriş yapılıyor...</span>
+        </button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <p class="register-link">
+        Hesabınız yok mu? <a routerLink="/register">Buradan kayıt olun</a>
+      </p>
+    </mat-card-actions>
+  </mat-card>
+</div>
