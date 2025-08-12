@@ -27,7 +27,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-chat-interface',
-  templateUrl: './chat-interface-tr.component.html',
+  templateUrl: './chat-interface-ru.component.html',
   styleUrls: ['./chat-interface.component.css'],
   standalone: true,
   imports: [

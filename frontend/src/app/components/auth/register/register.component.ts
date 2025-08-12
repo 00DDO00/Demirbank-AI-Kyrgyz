@@ -19,7 +19,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-register',
-  templateUrl: './register-tr.component.html',
+  templateUrl: './register-ru.component.html',
   styleUrls: ['./register.component.css'],
   standalone: true,
   imports: [

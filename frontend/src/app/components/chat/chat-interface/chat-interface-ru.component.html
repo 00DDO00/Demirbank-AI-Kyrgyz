@@ -7,50 +7,67 @@
         <span class="language-text">Многоязычная поддержка</span>
       </div>
     </div>
+    <button mat-icon-button (click)="logout()" matTooltip="Выйти">
+      <mat-icon>logout</mat-icon>
+    </button>
   </div>
 
-  <div class="chat-messages" #chatMessages>
-    <div
-      *ngFor="let message of messages"
-      [ngClass]="{
-        message: true,
-        'user-message': message.isUser,
-        'bot-message': !message.isUser
-      }"
-    >
-      <div class="message-content">
-        <div class="message-text">{{ message.text }}</div>
-        <div class="message-time">
-          {{ message.timestamp | date : "HH:mm" }}
+  <div class="chat-messages" #messageContainer>
+    <div *ngFor="let message of messages" class="message-container">
+      <!-- User Message -->
+      <div class="user-message">
+        <div class="message-bubble user-bubble">
+          <p>{{ message.message }}</p>
+          <small class="timestamp">{{
+            message.timestamp | date : "short"
+          }}</small>
         </div>
       </div>
+
+      <!-- AI Response -->
+      <div class="ai-message">
+        <div class="message-bubble ai-bubble">
+          <p>{{ message.response }}</p>
+          <small class="timestamp">{{
+            message.timestamp | date : "short"
+          }}</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading indicator -->
+    <div *ngIf="isLoading" class="loading-message">
+      <span>...</span>
     </div>
   </div>
 
   <div class="chat-input">
-    <mat-form-field appearance="outline" class="message-input">
-      <mat-label>Напишите сообщение на любом языке...</mat-label>
-      <textarea
-        matInput
-        [(ngModel)]="userMessage"
-        (keydown.enter)="onEnterPress($any($event))"
-        placeholder="Спросите меня что угодно на любом языке - английский, испанский, французский, арабский, китайский, японский, корейский, хинди и т.д..."
-        rows="3"
-      ></textarea>
+    <form
+      [formGroup]="messageForm"
+      (ngSubmit)="sendMessage()"
+      class="input-form"
+    >
+      <mat-form-field appearance="outline" class="message-input">
+        <mat-label>Напишите сообщение на любом языке...</mat-label>
+        <textarea
+          matInput
+          formControlName="message"
+          placeholder="Спросите меня что угодно на любом языке - английский, испанский, французский, арабский, китайский, японский, корейский, хинди и т.д..."
+          rows="2"
+          (keydown.enter)="onEnterPress($event)"
+        >
+        </textarea>
+      </mat-form-field>
+
       <button
-        mat-icon-button
-        matSuffix
-        (click)="sendMessage()"
-        [disabled]="!userMessage.trim() || isLoading"
-        matTooltip="Отправить"
+        mat-fab
+        color="primary"
+        type="submit"
+        [disabled]="messageForm.invalid || isLoading"
+        class="send-button"
       >
         <mat-icon>send</mat-icon>
       </button>
-    </mat-form-field>
-  </div>
-
-  <div *ngIf="isLoading" class="loading-indicator">
-    <mat-spinner diameter="20"></mat-spinner>
-    <span>Пишется ответ...</span>
+    </form>
   </div>
 </div>
