@@ -15,10 +15,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatError } from '@angular/material/form-field';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-register',
-  templateUrl: './register.component.html',
+  templateUrl: './register-tr.component.html',
   styleUrls: ['./register.component.css'],
   standalone: true,
   imports: [
@@ -30,6 +31,7 @@ import { CommonModule } from '@angular/common';
     MatButtonModule,
     MatError,
     RouterLink,
+    MatProgressSpinnerModule,
   ],
 })
 export class RegisterComponent {
