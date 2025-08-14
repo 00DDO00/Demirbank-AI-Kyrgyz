@@ -11,8 +11,24 @@ class ChatController {
         return res.status(400).json({ error: "Message is required" });
       }
 
-      // Generate response using Gemini AI
-      const aiResponse = await geminiService.generateResponse(message);
+      // Get recent conversation history (last 5 messages for context)
+      const recentHistory = await ChatHistory.findAll({
+        where: { user_id: userId },
+        order: [["timestamp", "DESC"]],
+        limit: 5,
+      });
+
+      // Reverse to get chronological order
+      const conversationHistory = recentHistory.reverse().map((msg) => ({
+        message: msg.message,
+        response: msg.response,
+      }));
+
+      // Generate response using Gemini AI with conversation history
+      const aiResponse = await geminiService.generateResponse(
+        message,
+        conversationHistory
+      );
 
       // Save chat history
       const chatHistory = await ChatHistory.create({

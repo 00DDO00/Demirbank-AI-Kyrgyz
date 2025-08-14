@@ -11,9 +11,12 @@ class GeminiService {
     this.useMockResponse = false; // Set to false when billing is enabled
   }
 
-  async generateResponse(message) {
+  async generateResponse(message, conversationHistory = []) {
     try {
       console.log(`🤖 [GEMINI] Calling API with message: "${message}"`);
+      console.log(
+        `🤖 [GEMINI] Conversation history length: ${conversationHistory.length}`
+      );
       console.log(`🤖 [GEMINI] API URL: ${this.apiUrl}`);
       console.log(`🤖 [GEMINI] API Key: ${this.apiKey.substring(0, 10)}...`);
 
@@ -22,6 +25,16 @@ class GeminiService {
       console.log(
         `📚 [KNOWLEDGEBASE] Context found: ${knowledgeContext ? "Yes" : "No"}`
       );
+
+      // Build conversation context
+      let conversationContext = "";
+      if (conversationHistory.length > 0) {
+        conversationContext = "\n\nCONVERSATION HISTORY:\n";
+        conversationHistory.forEach((msg, index) => {
+          conversationContext += `User: ${msg.message}\nAlicia: ${msg.response}\n`;
+        });
+        conversationContext += "\n";
+      }
 
       // Detect language and create enhanced prompt with multi-language support
       let enhancedPrompt = message;
@@ -44,6 +57,14 @@ MULTI-LANGUAGE SUPPORT:
 - Support ALL languages including Asian languages (Chinese, Japanese, Korean, Hindi, etc.)
 - Maintain the same tone and formality level as the user's message
 
+CONVERSATION CONTEXT:
+- You are in an ongoing conversation with the user
+- Reference previous messages when appropriate
+- Don't repeat information already discussed
+- Build upon previous context naturally
+- If the user refers to something mentioned earlier, acknowledge it
+- Maintain conversation flow and continuity
+
 IMPORTANT: Be conversational, friendly, and concise. Don't dump large paragraphs of text. Instead:
 - Give brief, helpful answers
 - Ask follow-up questions when appropriate
@@ -56,11 +77,10 @@ IMPORTANT: Be conversational, friendly, and concise. Don't dump large paragraphs
 - Never start the conversation with 'hi there' or anything similar after the first response.
 
 Knowledge base reference:
-${knowledgeContext}
-
+${knowledgeContext}${conversationContext}
 User Question: ${message}
 
-Please provide a conversational, concise response in the SAME LANGUAGE as the user's message, based on the banking knowledge base.`;
+Please provide a conversational, concise response in the SAME LANGUAGE as the user's message, based on the banking knowledge base and conversation context.`;
       } else {
         // If no specific context found, provide general Demirbank overview
         const overview = knowledgebaseService.getServiceOverview();
@@ -81,6 +101,14 @@ MULTI-LANGUAGE SUPPORT:
 - Support ALL languages including Asian languages (Chinese, Japanese, Korean, Hindi, etc.)
 - Maintain the same tone and formality level as the user's message
 
+CONVERSATION CONTEXT:
+- You are in an ongoing conversation with the user
+- Reference previous messages when appropriate
+- Don't repeat information already discussed
+- Build upon previous context naturally
+- If the user refers to something mentioned earlier, acknowledge it
+- Maintain conversation flow and continuity
+
 IMPORTANT: Be conversational, friendly, and concise. Don't dump large paragraphs of text. Instead:
 - Give brief, helpful answers
 - Ask follow-up questions when appropriate
@@ -88,8 +116,7 @@ IMPORTANT: Be conversational, friendly, and concise. Don't dump large paragraphs
 - Use the knowledge base as reference, but don't copy it verbatim
 - Keep responses under 3-4 sentences unless the user asks for more detail
 
-${overview}
-
+${overview}${conversationContext}
 User Question: ${message}
 
 Please provide a conversational, concise response in the SAME LANGUAGE as the user's message. If the user is asking about banking services or information, use the provided overview. For general questions, provide helpful assistance.`;
